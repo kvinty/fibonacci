@@ -1,0 +1,22 @@
+#!/bin/sh
+
+N=1000000
+FORMAT="%-12s"
+
+measure_time() {
+    time --format "%U" "${@}" >/dev/null
+}
+
+g++ -std=c++11 -O3 -o fibonacci fibonacci.cpp -lgmp
+javac Fibonacci.java
+
+printf "${FORMAT}" "C++:"
+measure_time ./fibonacci "${N}"
+printf "${FORMAT}" "Java:"
+measure_time java Fibonacci "${N}"
+printf "${FORMAT}" "Python 2:"
+measure_time python2 fibonacci.py "${N}"
+printf "${FORMAT}" "Python 3:"
+measure_time python3 fibonacci.py "${N}"
+
+rm fibonacci *.class
